@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>The library contains a stripped down lists of human names from the US Census names list, and a list of place names from another census list. The library allows you to get random first and last names or both and you can get male and female first names. You can also generate random place names as well. To access this functionality create a NameGenerator in namespace RandomNameGenerator, and call one of the functions like GenerateRandomFirstAndLastName(). The functions names describe literally and simply what those functions do.  Examples at github project site:  https://github.com/m4bwav/DotNetRandomNameGenerator</Description>
+    <AssemblyTitle>Random Name Generator</AssemblyTitle>
+    <VersionPrefix>1.2.2.0</VersionPrefix>
+    <Authors>Mark Rogers</Authors>
+    <TargetFrameworks>net40;netstandard1.6</TargetFrameworks>
+    <AssemblyName>RandomNameGeneratorLibrary</AssemblyName>
+    <PackageId>RandomNameGeneratorLibrary</PackageId>
+    <PackageProjectUrl>https://github.com/m4bwav/DotNetRandomNameGenerator</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/m4bwav/DotNetRandomNameGenerator/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.dist.all.last.stripped;Resources.dist.female.first.stripped;Resources.dist.male.first.stripped;Resources.places2k.txt.stripped" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <Target Name="PostcompileScript" AfterTargets="Build" Condition=" '$(IsCrossTargetingBuild)' != 'true' ">
+    <Exec Command="dotnet pack --no-build --configuration $(Configuration)" />
+  </Target>
+
+</Project>
